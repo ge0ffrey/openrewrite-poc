@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.optaplanner</groupId>
+    <artifactId>optaplanner-build-parent</artifactId>
+    <version>8.30.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>optaplanner-rewrite-poc</artifactId>
+
+  <name>OptaPlanner Open rewrite POC</name>
+
+  <properties>
+    <java.module.name>org.optaplanner.rewrite.poc</java.module.name>
+    <version.org.slf4j>1.7.36</version.org.slf4j>
+
+    <mdep.analyze.skip>true</mdep.analyze.skip><!-- TODO fixme -->
+  </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.openrewrite.recipe</groupId>
+        <artifactId>rewrite-recipe-bom</artifactId>
+        <version>1.11.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>jcl-over-slf4j</artifactId>
+        <version>${version.org.slf4j}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <dependencies>
+    <!-- rewrite-java depedencies only necessary for Java Recipe development -->
+    <dependency>
+      <groupId>org.openrewrite</groupId>
+      <artifactId>rewrite-java</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openrewrite</groupId>
+      <artifactId>rewrite-java-8</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.openrewrite</groupId>
+      <artifactId>rewrite-java-11</artifactId>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- rewrite-maven dependency only necessary for Maven Recipe development -->
+    <dependency>
+      <groupId>org.openrewrite</groupId>
+      <artifactId>rewrite-maven</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- rewrite-yaml dependency only necessary for Yaml Recipe development -->
+    <dependency>
+      <groupId>org.openrewrite</groupId>
+      <artifactId>rewrite-yaml</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- rewrite-properties dependency only necessary for Properties Recipe development -->
+    <dependency>
+      <groupId>org.openrewrite</groupId>
+      <artifactId>rewrite-properties</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- rewrite-xml dependency only necessary for XML Recipe development -->
+    <dependency>
+      <groupId>org.openrewrite</groupId>
+      <artifactId>rewrite-xml</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- For authoring tests for any kind of Recipe -->
+    <dependency>
+      <groupId>org.openrewrite</groupId>
+      <artifactId>rewrite-test</artifactId>
+      <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>commons-logging</groupId>
+          <artifactId>commons-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+  </dependencies>
+</project>
