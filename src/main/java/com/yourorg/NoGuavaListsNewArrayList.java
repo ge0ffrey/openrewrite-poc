@@ -26,6 +26,7 @@ import org.openrewrite.java.search.UsesMethod;
 import org.openrewrite.java.tree.J;
 
 public class NoGuavaListsNewArrayList extends Recipe {
+
     private static final MethodMatcher NEW_ARRAY_LIST = new MethodMatcher("com.google.common.collect.Lists newArrayList()");
     private static final MethodMatcher NEW_ARRAY_LIST_ITERABLE =
             new MethodMatcher("com.google.common.collect.Lists newArrayList(java.lang.Iterable)");
