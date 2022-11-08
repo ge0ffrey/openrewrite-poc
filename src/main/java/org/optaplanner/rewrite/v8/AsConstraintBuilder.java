@@ -15,10 +15,13 @@
  */
 package org.optaplanner.rewrite.v8;
 
+import java.util.regex.Pattern;
+
 import org.openrewrite.ExecutionContext;
 import org.openrewrite.Recipe;
 import org.openrewrite.TreeVisitor;
 import org.openrewrite.java.JavaIsoVisitor;
+import org.openrewrite.java.JavaParser;
 import org.openrewrite.java.JavaTemplate;
 import org.openrewrite.java.MethodMatcher;
 import org.openrewrite.java.search.UsesMethod;
@@ -57,19 +60,60 @@ public class AsConstraintBuilder extends Recipe {
     protected TreeVisitor<?, ExecutionContext> getVisitor() {
         return new JavaIsoVisitor<>() {
 
-            private final JavaTemplate template = JavaTemplate.builder(() -> getCursor().getParentOrThrow(),
-                    "#{any(org.optaplanner.core.api.score.stream.ConstraintStream)}" +
+            private final Pattern uniConstraintStreamPattern = Pattern.compile(
+                    "org.optaplanner.core.api.score.stream.uni.UniConstraintStream");
+            private final Pattern biConstraintStreamPattern = Pattern.compile(
+                    "org.optaplanner.core.api.score.stream.bi.BiConstraintStream");
+            private final Pattern triConstraintStreamPattern = Pattern.compile(
+                    "org.optaplanner.core.api.score.stream.tri.TriConstraintStream");
+            private final Pattern quadConstraintStreamPattern = Pattern.compile(
+                    "org.optaplanner.core.api.score.stream.quad.QuadConstraintStream");
+            private final JavaTemplate uniTemplate = JavaTemplate.builder(() -> getCursor().getParentOrThrow(),
+                    "#{any(org.optaplanner.core.api.score.stream.uni.UniConstraintStream)}" +
                             ".penalize(#{any(org.optaplanner.core.api.score.Score)})" +
-                            ".asConstraint(#{any(java.lang.String)})"
-            ).build();
+                            ".asConstraint(#{any(java.lang.String)})")
+                    .javaParser(() -> JavaParser.fromJavaVersion().classpath("optaplanner-core").build())
+                    .build();
+            private final JavaTemplate biTemplate = JavaTemplate.builder(() -> getCursor().getParentOrThrow(),
+                    "#{any(org.optaplanner.core.api.score.stream.bi.BiConstraintStream)}" +
+                            ".penalize(#{any(org.optaplanner.core.api.score.Score)})" +
+                            ".asConstraint(#{any(java.lang.String)})")
+                    .javaParser(() -> JavaParser.fromJavaVersion().classpath("optaplanner-core").build())
+                    .build();
+            private final JavaTemplate triTemplate = JavaTemplate.builder(() -> getCursor().getParentOrThrow(),
+                    "#{any(org.optaplanner.core.api.score.stream.tri.TriConstraintStream)}" +
+                            ".penalize(#{any(org.optaplanner.core.api.score.Score)})" +
+                            ".asConstraint(#{any(java.lang.String)})")
+                    .javaParser(() -> JavaParser.fromJavaVersion().classpath("optaplanner-core").build())
+                    .build();
+            private final JavaTemplate quadTemplate = JavaTemplate.builder(() -> getCursor().getParentOrThrow(),
+                    "#{any(org.optaplanner.core.api.score.stream.quad.QuadConstraintStream)}" +
+                            ".penalize(#{any(org.optaplanner.core.api.score.Score)})" +
+                            ".asConstraint(#{any(java.lang.String)})")
+                    .javaParser(() -> JavaParser.fromJavaVersion().classpath("optaplanner-core").build())
+                    .build();
 
             @Override
             public Expression visitExpression(Expression expression, ExecutionContext executionContext) {
                 Expression e = super.visitExpression(expression, executionContext);
                 if (MATCHER.matches(e)){
                     J.MethodInvocation mi = (J.MethodInvocation) e;
+                    Expression select = mi.getSelect();
+                    JavaTemplate template;
+                    if (select.getType().isAssignableFrom(uniConstraintStreamPattern)) {
+                        template = uniTemplate;
+                    } else if (select.getType().isAssignableFrom(biConstraintStreamPattern)) {
+                        template = biTemplate;
+                    } else if (select.getType().isAssignableFrom(triConstraintStreamPattern)) {
+                        template = triTemplate;
+                    } else if (select.getType().isAssignableFrom(quadConstraintStreamPattern)) {
+                        template = quadTemplate;
+                    } else {
+                        // TODO log warning
+                        return e;
+                    }
                     e = e.withTemplate(template,
-                            e.getCoordinates().replace(), mi.getSelect(),
+                            e.getCoordinates().replace(), select,
                             mi.getArguments().get(1), mi.getArguments().get(0));
                 }
                 return e;
