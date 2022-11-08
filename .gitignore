@@ -1,4 +1,9 @@
-build/
-.gradle/
-.idea/
-out/
+/local
+
+# Eclipse, Netbeans and IntelliJ files
+/.*
+!.gitignore
+/nbproject
+/*.ipr
+/*.iws
+/*.iml

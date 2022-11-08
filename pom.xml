@@ -38,7 +38,6 @@
   </dependencyManagement>
 
   <dependencies>
-    <!-- rewrite-java depedencies only necessary for Java Recipe development -->
     <dependency>
       <groupId>org.openrewrite</groupId>
       <artifactId>rewrite-java</artifactId>
@@ -59,13 +58,6 @@
     <dependency>
       <groupId>org.openrewrite</groupId>
       <artifactId>rewrite-maven</artifactId>
-      <scope>compile</scope>
-    </dependency>
-
-    <!-- rewrite-yaml dependency only necessary for Yaml Recipe development -->
-    <dependency>
-      <groupId>org.openrewrite</groupId>
-      <artifactId>rewrite-yaml</artifactId>
       <scope>compile</scope>
     </dependency>
 
@@ -98,6 +90,12 @@
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>jcl-over-slf4j</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.optaplanner</groupId>
+      <artifactId>optaplanner-core</artifactId>
+      <scope>runtime</scope>
     </dependency>
   </dependencies>
 </project>

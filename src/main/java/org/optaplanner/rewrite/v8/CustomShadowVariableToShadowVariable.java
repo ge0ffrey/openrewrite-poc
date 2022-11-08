@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 the original author or authors.
+ * Copyright 2021 the original author or authors.
  * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@NonNullApi
-@NonNullFields
-package com.yourorg;
+package org.optaplanner.rewrite.v8;
 
-import org.openrewrite.internal.lang.NonNullApi;
-import org.openrewrite.internal.lang.NonNullFields;
+import org.openrewrite.Recipe;
+
+public class CustomShadowVariableToShadowVariable extends Recipe {
+
+//    private static final AnnotationMatcher AUTOWIRED_ANNOTATION_MATCHER =
+//            new AnnotationMatcher("@org.springframework.beans.factory.annotation.Autowired(true)")
+
+    @Override
+    public String getDisplayName() {
+        return "TODO";
+    }
+
+}
