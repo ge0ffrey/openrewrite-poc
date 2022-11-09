@@ -69,25 +69,25 @@ public class AsConstraintBuilder extends Recipe {
             private final Pattern quadConstraintStreamPattern = Pattern.compile(
                     "org.optaplanner.core.api.score.stream.quad.QuadConstraintStream");
             private final JavaTemplate uniTemplate = JavaTemplate.builder(() -> getCursor().getParentOrThrow(),
-                    "#{any(org.optaplanner.core.api.score.stream.uni.UniConstraintStream)}" +
+                    "#{any(org.optaplanner.core.api.score.stream.uni.UniConstraintStream)}\n" +
                             ".penalize(#{any(org.optaplanner.core.api.score.Score)})\n" +
                             ".asConstraint(#{any(java.lang.String)})")
                     .javaParser(() -> JavaParser.fromJavaVersion().classpath("optaplanner-core").build())
                     .build();
             private final JavaTemplate biTemplate = JavaTemplate.builder(() -> getCursor().getParentOrThrow(),
-                    "#{any(org.optaplanner.core.api.score.stream.bi.BiConstraintStream)}" +
+                    "#{any(org.optaplanner.core.api.score.stream.bi.BiConstraintStream)}\n" +
                             ".penalize(#{any(org.optaplanner.core.api.score.Score)})\n" +
                             ".asConstraint(#{any(java.lang.String)})")
                     .javaParser(() -> JavaParser.fromJavaVersion().classpath("optaplanner-core").build())
                     .build();
             private final JavaTemplate triTemplate = JavaTemplate.builder(() -> getCursor().getParentOrThrow(),
-                    "#{any(org.optaplanner.core.api.score.stream.tri.TriConstraintStream)}" +
+                    "#{any(org.optaplanner.core.api.score.stream.tri.TriConstraintStream)}\n" +
                             ".penalize(#{any(org.optaplanner.core.api.score.Score)})\n" +
                             ".asConstraint(#{any(java.lang.String)})")
                     .javaParser(() -> JavaParser.fromJavaVersion().classpath("optaplanner-core").build())
                     .build();
             private final JavaTemplate quadTemplate = JavaTemplate.builder(() -> getCursor().getParentOrThrow(),
-                    "#{any(org.optaplanner.core.api.score.stream.quad.QuadConstraintStream)}" +
+                    "#{any(org.optaplanner.core.api.score.stream.quad.QuadConstraintStream)}\n" +
                             ".penalize(#{any(org.optaplanner.core.api.score.Score)})\n" +
                             ".asConstraint(#{any(java.lang.String)})")
                     .javaParser(() -> JavaParser.fromJavaVersion().classpath("optaplanner-core").build())
