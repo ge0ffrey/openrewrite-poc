@@ -186,13 +186,686 @@ class AsConstraintBuilderTest implements RewriteTest {
     // Bi
     // ************************************************************************
 
+    @Test
+    void biPenalizeName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeConfigurableName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My constraint\");"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable()\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeConfigurableId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My package\", \"My constraint\");"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable()\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My constraint\", HardSoftScore.ONE_HARD, (a, b) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD, (a, b) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD, (a, b) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD, (a, b) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeConfigurableNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My constraint\", (a, b) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable((a, b) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeConfigurableIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My package\", \"My constraint\", (a, b) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable((a, b) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(\"My constraint\", HardSoftLongScore.ONE_HARD, (a, b) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(HardSoftLongScore.ONE_HARD, (a, b) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(\"My package\", \"My constraint\", HardSoftLongScore.ONE_HARD, (a, b) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(HardSoftLongScore.ONE_HARD, (a, b) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeConfigurableNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong(\"My constraint\", (a, b) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong((a, b) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeConfigurableIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong(\"My package\", \"My constraint\", (a, b) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong((a, b) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(\"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(\"My package\", \"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeConfigurableNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal(\"My constraint\", (a, b) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal((a, b) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biPenalizeConfigurableIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal(\"My package\", \"My constraint\", (a, b) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal((a, b) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
     // ************************************************************************
     // Tri
     // ************************************************************************
 
+    @Test
+    void triPenalizeName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeConfigurableName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My constraint\");"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable()\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeConfigurableId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My package\", \"My constraint\");"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable()\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My constraint\", HardSoftScore.ONE_HARD, (a, b, c) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD, (a, b, c) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD, (a, b, c) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD, (a, b, c) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeConfigurableNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My constraint\", (a, b, c) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable((a, b, c) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeConfigurableIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My package\", \"My constraint\", (a, b, c) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable((a, b, c) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(\"My constraint\", HardSoftLongScore.ONE_HARD, (a, b, c) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(HardSoftLongScore.ONE_HARD, (a, b, c) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(\"My package\", \"My constraint\", HardSoftLongScore.ONE_HARD, (a, b, c) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(HardSoftLongScore.ONE_HARD, (a, b, c) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeConfigurableNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong(\"My constraint\", (a, b, c) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong((a, b, c) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeConfigurableIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong(\"My package\", \"My constraint\", (a, b, c) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong((a, b, c) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(\"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b, c) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b, c) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(\"My package\", \"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b, c) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b, c) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeConfigurableNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal(\"My constraint\", (a, b, c) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal((a, b, c) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triPenalizeConfigurableIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal(\"My package\", \"My constraint\", (a, b, c) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal((a, b, c) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
     // ************************************************************************
     // Quad
     // ************************************************************************
+
+
+    @Test
+    void quadPenalizeName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeConfigurableName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My constraint\");"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable()\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeConfigurableId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My package\", \"My constraint\");"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable()\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My constraint\", HardSoftScore.ONE_HARD, (a, b, c, d) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD, (a, b, c, d) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD, (a, b, c, d) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalize(HardSoftScore.ONE_HARD, (a, b, c, d) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeConfigurableNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My constraint\", (a, b, c, d) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable((a, b, c, d) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeConfigurableIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable(\"My package\", \"My constraint\", (a, b, c, d) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurable((a, b, c, d) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(\"My constraint\", HardSoftLongScore.ONE_HARD, (a, b, c, d) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(HardSoftLongScore.ONE_HARD, (a, b, c, d) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(\"My package\", \"My constraint\", HardSoftLongScore.ONE_HARD, (a, b, c, d) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeLong(HardSoftLongScore.ONE_HARD, (a, b, c, d) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeConfigurableNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong(\"My constraint\", (a, b, c, d) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong((a, b, c, d) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeConfigurableIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong(\"My package\", \"My constraint\", (a, b, c, d) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableLong((a, b, c, d) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(\"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b, c, d) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b, c, d) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(\"My package\", \"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b, c, d) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b, c, d) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeConfigurableNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal(\"My constraint\", (a, b, c, d) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal((a, b, c, d) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadPenalizeConfigurableIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal(\"My package\", \"My constraint\", (a, b, c, d) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .penalizeConfigurableBigDecimal((a, b, c, d) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
 
     // ************************************************************************
     // Helper methods
