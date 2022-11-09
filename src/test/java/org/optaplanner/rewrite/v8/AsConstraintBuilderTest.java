@@ -13,7 +13,6 @@ class AsConstraintBuilderTest implements RewriteTest {
     public void defaults(RecipeSpec spec) {
         spec.recipe(new AsConstraintBuilder())
             .parser(JavaParser.fromJavaVersion()
-                .logCompilationWarningsAndErrors(true)
                 .classpath("optaplanner-core"));
     }
 
@@ -35,7 +34,8 @@ class AsConstraintBuilderTest implements RewriteTest {
                     "\n" +
                     "class Test {\n" +
                     "    Constraint roomConflict(BiConstraintStream<String, String> s) {\n" +
-                    "        return s.penalize(HardSoftScore.ONE_HARD).asConstraint(\"Room conflict\");\n" +
+                    "        return s.penalize(HardSoftScore.ONE_HARD)\n" +
+                    "                .asConstraint(\"Room conflict\");\n" +
                     "    }" +
                     "}\n"));
     }
@@ -58,7 +58,8 @@ class AsConstraintBuilderTest implements RewriteTest {
                     "\n" +
                     "class Test {\n" +
                     "    Constraint roomConflict(ConstraintFactory f) {\n" +
-                    "        return f.forEach(String.class).penalize(HardSoftScore.ONE_HARD).asConstraint(\"Room conflict\");\n" +
+                    "        return f.forEach(String.class).penalize(HardSoftScore.ONE_HARD)\n" +
+                    "                .asConstraint(\"Room conflict\");\n" +
                     "    }" +
                     "}\n"));
     }
