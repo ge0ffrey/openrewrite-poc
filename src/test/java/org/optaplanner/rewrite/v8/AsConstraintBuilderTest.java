@@ -340,6 +340,86 @@ class AsConstraintBuilderTest implements RewriteTest {
                 "                .asConstraint(\"My package\", \"My constraint\");")));
     }
 
+    @Test
+    void uniImpactName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impact(\"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void uniImpactId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impact(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void uniImpactNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impact(\"My constraint\", HardSoftScore.ONE_HARD, (a) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD, (a) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void uniImpactIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impact(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD, (a) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD, (a) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void uniImpactNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impactLong(\"My constraint\", HardSoftLongScore.ONE_HARD, (a) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impactLong(HardSoftLongScore.ONE_HARD, (a) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void uniImpactIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impactLong(\"My package\", \"My constraint\", HardSoftLongScore.ONE_HARD, (a) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impactLong(HardSoftLongScore.ONE_HARD, (a) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void uniImpactNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impactBigDecimal(\"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impactBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void uniImpactIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impactBigDecimal(\"My package\", \"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .impactBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
     // ************************************************************************
     // Bi
     // ************************************************************************
@@ -725,6 +805,102 @@ class AsConstraintBuilderTest implements RewriteTest {
             wrap("        return f.forEach(String.class)\n" +
                 "                .join(String.class)\n" +
                 "                .rewardConfigurableBigDecimal((a, b) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biImpactName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biImpactId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biImpactNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My constraint\", HardSoftScore.ONE_HARD, (a, b) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD, (a, b) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biImpactIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD, (a, b) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD, (a, b) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biImpactNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(\"My constraint\", HardSoftLongScore.ONE_HARD, (a, b) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(HardSoftLongScore.ONE_HARD, (a, b) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biImpactIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(\"My package\", \"My constraint\", HardSoftLongScore.ONE_HARD, (a, b) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(HardSoftLongScore.ONE_HARD, (a, b) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void biImpactNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(\"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void biImpactIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(\"My package\", \"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b) -> BigDecimal.TEN)\n" +
                 "                .asConstraint(\"My package\", \"My constraint\");")));
     }
 
@@ -1177,6 +1353,118 @@ class AsConstraintBuilderTest implements RewriteTest {
                 "                .join(String.class)\n" +
                 "                .join(String.class)\n" +
                 "                .rewardConfigurableBigDecimal((a, b, c) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triImpactName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triImpactId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triImpactNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My constraint\", HardSoftScore.ONE_HARD, (a, b, c) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD, (a, b, c) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triImpactIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD, (a, b, c) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD, (a, b, c) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triImpactNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(\"My constraint\", HardSoftLongScore.ONE_HARD, (a, b, c) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(HardSoftLongScore.ONE_HARD, (a, b, c) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triImpactIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(\"My package\", \"My constraint\", HardSoftLongScore.ONE_HARD, (a, b, c) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(HardSoftLongScore.ONE_HARD, (a, b, c) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void triImpactNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(\"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b, c) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b, c) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void triImpactIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(\"My package\", \"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b, c) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b, c) -> BigDecimal.TEN)\n" +
                 "                .asConstraint(\"My package\", \"My constraint\");")));
     }
 
@@ -1693,6 +1981,134 @@ class AsConstraintBuilderTest implements RewriteTest {
                 "                .join(String.class)\n" +
                 "                .join(String.class)\n" +
                 "                .rewardConfigurableBigDecimal((a, b, c, d) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadImpactName() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadImpactId() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadImpactNameMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My constraint\", HardSoftScore.ONE_HARD, (a, b, c, d) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD, (a, b, c, d) -> 7)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadImpactIdMatchWeigherInt() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(\"My package\", \"My constraint\", HardSoftScore.ONE_HARD, (a, b, c, d) -> 7);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impact(HardSoftScore.ONE_HARD, (a, b, c, d) -> 7)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadImpactNameMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(\"My constraint\", HardSoftLongScore.ONE_HARD, (a, b, c, d) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(HardSoftLongScore.ONE_HARD, (a, b, c, d) -> 7L)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadImpactIdMatchWeigherLong() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(\"My package\", \"My constraint\", HardSoftLongScore.ONE_HARD, (a, b, c, d) -> 7L);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactLong(HardSoftLongScore.ONE_HARD, (a, b, c, d) -> 7L)\n" +
+                "                .asConstraint(\"My package\", \"My constraint\");")));
+    }
+
+    @Test
+    void quadImpactNameMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(\"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b, c, d) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b, c, d) -> BigDecimal.TEN)\n" +
+                "                .asConstraint(\"My constraint\");")));
+    }
+
+    @Test
+    void quadImpactIdMatchWeigherBigDecimal() {
+        rewriteRun(java(
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(\"My package\", \"My constraint\", HardSoftBigDecimalScore.ONE_HARD, (a, b, c, d) -> BigDecimal.TEN);"),
+            wrap("        return f.forEach(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .join(String.class)\n" +
+                "                .impactBigDecimal(HardSoftBigDecimalScore.ONE_HARD, (a, b, c, d) -> BigDecimal.TEN)\n" +
                 "                .asConstraint(\"My package\", \"My constraint\");")));
     }
 
